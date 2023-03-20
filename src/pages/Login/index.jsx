@@ -24,7 +24,9 @@ const Login = () => {
     formData.email === 'test@123.com' && formData.password === '12345'
       ? (login = true)
       : (login = false);
-    login ? navigate('/') : setMessage('Invalid Credentials');
+    login
+      ? navigate('/')
+      : setMessage('Invalid Credentials. Please try again.');
   };
 
   return (
@@ -46,7 +48,7 @@ const Login = () => {
           onChange={handleChange}
         />
         <button type='submit'>LOG IN</button>
-        {message}
+        <span className='error'>{message}</span>
       </form>
     </div>
   );
