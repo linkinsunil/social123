@@ -110,3 +110,15 @@
   text-decoration: none;
   color: #000;
 }
+
+.btn-comment {
+  align-items: center;
+  background-color: rgb(209, 209, 255);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.btn-comment:hover {
+  background-color: rgb(201, 201, 255);
+}
