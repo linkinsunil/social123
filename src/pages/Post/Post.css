@@ -6,6 +6,7 @@
 }
 
 .wrapper {
+  min-width: 214px;
   border-radius: 0.5rem;
   padding: 1rem;
   width: 50%;
@@ -75,13 +76,17 @@
   cursor: pointer;
 }
 
+.likes-count {
+  font-size: 14px;
+}
+
 .comment-box {
+  position: relative;
   width: 100%;
   gap: 8px;
   align-self: flex-start;
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 .comment-box > input {
@@ -91,10 +96,6 @@
   outline: none;
   border: none;
   padding: 0.6rem 1.5rem;
-}
-
-.likes-count {
-  font-size: 14px;
 }
 
 .flex {
@@ -108,4 +109,44 @@
 .link {
   text-decoration: none;
   color: #000;
+}
+
+.delete {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  position: relative;
+}
+
+.comments-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.comments {
+  background-color: aliceblue;
+  width: 100%;
+  gap: 8px;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+}
+
+.comments > p {
+  width: 90%;
+  padding: 0 0.3rem;
+}
+
+.popup {
+  position: absolute;
+  top: 0.5rem;
+  right: 1.5rem;
+  background-color: black;
+  color: #fff;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  cursor: pointer;
 }
