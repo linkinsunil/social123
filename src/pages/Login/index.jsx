@@ -1,32 +1,48 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './style.css';
+import './Login.css';
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: 'test@123.com',
-    password: '12345',
-  });
+  const loginURL = 'https://api.realworld.io/api/users/login';
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  let login = false;
+  const [userData, setUserData] = useState({
+    email: 'dasdasd@gmail.com',
+    password: 'dsfafsdfsd',
+  });
 
   const handleChange = e => {
-    setFormData(prevState => ({
+    setUserData(prevState => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
 
-  const handleSubmit = e => {
+  const postLoginDetails = async (loginURL, email, password) => {
+    try {
+      const res = await axios.post(loginURL, {
+        user: {
+          email,
+          password,
+        },
+      });
+      console.log('RES-DATA', res.data);
+      if (res.status !== 200) return;
+
+      localStorage.setItem('token', res.data.user.token);
+      navigate('/');
+    } catch (err) {
+      console.log(err);
+      setMessage('Invalid Credentials. Please try again.');
+    }
+  };
+
+  const handleSubmit = async e => {
     e.preventDefault();
-    formData.email === 'test@123.com' && formData.password === '12345'
-      ? (login = true)
-      : (login = false);
-    login
-      ? navigate('/')
-      : setMessage('Invalid Credentials. Please try again.');
+
+    postLoginDetails(loginURL, userData.email, userData.password);
   };
 
   return (
@@ -37,17 +53,21 @@ const Login = () => {
           type='email'
           name='email'
           placeholder='Enter your email'
-          value={formData.email}
+          value={userData.email}
           onChange={handleChange}
         />
+        {!userData.email && 'Enter an email'}
+
         <input
           type='password'
           name='password'
           placeholder='Enter your password'
-          value={formData.password}
+          value={userData.password}
           onChange={handleChange}
         />
-        <button type='submit'>LOG IN</button>
+        {!userData.password && 'Enter password'}
+
+        <button type='submit'>LOGIN</button>
         <span className='error'>{message}</span>
       </form>
     </div>
