@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './FeedCard.css';
 import LikeIcon from '../../assets/Like';
 import CommentIcon from '../../assets/Comment';
 import ShareIcon from '../../assets/Share';
 import RepostIcon from '../../assets/Repost';
 import { Link } from 'react-router-dom';
+import AddComment from '../../assets/AddComment';
 
 const FeedCard = props => {
+  const [comment, setComment] = useState('');
   return (
     <div className='card-container'>
       <div className='wrapper'>
@@ -65,7 +67,16 @@ const FeedCard = props => {
             src={props.feed.author.image}
             alt={props.feed.author.username}
           />
-          <input type='text' placeholder='Comment on this...' />
+          <input
+            type='text'
+            placeholder='Comment on this...'
+            name='comment'
+            value={comment}
+            onChange={e => setComment(e.target.value)}
+          />
+          <div className='btn-comment'>
+            <AddComment />
+          </div>
         </div>
       </div>
     </div>
