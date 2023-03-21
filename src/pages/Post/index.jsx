@@ -1,7 +1,94 @@
-import React from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import CommentIcon from '../../assets/Comment';
+import LikeIcon from '../../assets/Like';
+import RepostIcon from '../../assets/Repost';
+import ShareIcon from '../../assets/Share';
+import Loader from '../../components/Loader';
+import './Post.css';
 
 const Post = () => {
-  return <div>Post</div>;
+  let { slug } = useParams();
+  const [feedData, setFeedData] = useState('');
+
+  useEffect(() => {
+    const getFeedData = async () => {
+      const res = await axios.get(
+        `https://api.realworld.io/api/articles/${slug}`
+      );
+
+      setFeedData(res.data.article);
+    };
+
+    getFeedData();
+  }, []);
+
+  return (
+    <div className='card-container'>
+      {feedData ? (
+        <div className='wrapper'>
+          <div className='user-info'>
+            <img
+              className='avatar'
+              src={feedData.author.image}
+              alt={feedData.author.username}
+            />
+            <div className='user-text'>
+              <p className='user-title'>
+                {feedData.author.username} <span className='time-ago'>1h</span>
+              </p>
+              <p className='user-headline'>{feedData.author.bio}</p>
+            </div>
+          </div>
+
+          <div>
+            <p>{feedData.title}</p>
+          </div>
+
+          <div>
+            <img
+              className='post-image'
+              src='https://torum-bucket.s3.us-east-2.amazonaws.com/5f0c4fd61039e53f6a231082/post/media/4dea2bacbe4b62820c6a5de9f3a05c9a_post_1679284976383.gif'
+              alt='cat in car'
+            />
+          </div>
+
+          <div className='social-bar'>
+            <div className='social-options'>
+              <div className='flex gap-8'>
+                <LikeIcon />
+                {feedData.favoritesCount && (
+                  <p className='likes-count'>{feedData.favoritesCount}</p>
+                )}
+              </div>
+              <div>
+                <CommentIcon />
+              </div>
+              <div>
+                <ShareIcon />
+              </div>
+              <div>
+                <RepostIcon />
+              </div>
+            </div>
+            <div></div>
+          </div>
+
+          <div className='comment-box'>
+            <img
+              className='avatar'
+              src={feedData.author.image}
+              alt={feedData.author.username}
+            />
+            <input type='text' placeholder='Comment on this...' />
+          </div>
+        </div>
+      ) : (
+        <Loader />
+      )}
+    </div>
+  );
 };
 
 export default Post;
