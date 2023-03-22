@@ -15,6 +15,7 @@ const Post = () => {
   const [feedData, setFeedData] = useState('');
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
+  const [errMessage, setErrMessage] = useState('');
 
   // FETCH FEED DATA FROM API
   useEffect(() => {
@@ -44,11 +45,19 @@ const Post = () => {
 
     try {
       const res = await axios.post(url, data, config);
-      console.log('RES-DATA COMMENT', res.data);
       setComments(prev => [...prev, res.data.comment]);
       setComment('');
     } catch (err) {
       console.log(err);
+      setComment('');
+
+      setTimeout(() => {
+        setErrMessage('Login First');
+      }, 0);
+
+      setTimeout(() => {
+        setErrMessage('');
+      }, 3000);
     }
   };
 
@@ -75,6 +84,7 @@ const Post = () => {
     <div className='card-container'>
       {feedData ? (
         <div className='wrapper'>
+          {errMessage && <div className='message'>{errMessage}</div>}
           <div className='user-info'>
             <img
               className='avatar'
