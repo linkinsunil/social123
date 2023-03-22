@@ -1,14 +1,14 @@
-.card-container {
+.feed-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 4rem 0;
 }
 
 .wrapper {
   background-color: #fff;
   border-radius: 0.5rem;
   padding: 1rem;
+  margin: 2rem 0;
   width: 50%;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
     rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
