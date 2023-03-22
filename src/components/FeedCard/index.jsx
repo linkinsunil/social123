@@ -1,28 +1,25 @@
-import React, { useState } from 'react';
 import './FeedCard.css';
 import LikeIcon from '../../assets/Like';
 import CommentIcon from '../../assets/Comment';
 import ShareIcon from '../../assets/Share';
 import RepostIcon from '../../assets/Repost';
 import { Link } from 'react-router-dom';
-import AddComment from '../../assets/AddComment';
 
 const FeedCard = props => {
-  const [comment, setComment] = useState('');
   return (
-    <div className='card-container'>
+    <div className='feed-container'>
       <div className='wrapper'>
         <div className='user-info'>
           <img
             className='avatar'
-            src={props.feed.author.image}
-            alt={props.feed.author.username}
+            src={props.feed.author?.image}
+            alt={props.feed.author?.username}
           />
           <div className='user-text'>
             <p className='user-title'>
-              {props.feed.author.username} <span className='time-ago'>1h</span>
+              {props.feed.author?.username} <span className='time-ago'>1h</span>
             </p>
-            <p className='user-headline'>{props.feed.author.bio}</p>
+            <p className='user-headline'>{props.feed.author?.bio}</p>
           </div>
         </div>
 
@@ -59,24 +56,6 @@ const FeedCard = props => {
             </div>
           </div>
           <div></div>
-        </div>
-
-        <div className='comment-box'>
-          <img
-            className='avatar'
-            src={props.feed.author.image}
-            alt={props.feed.author.username}
-          />
-          <input
-            type='text'
-            placeholder='Comment on this...'
-            name='comment'
-            value={comment}
-            onChange={e => setComment(e.target.value)}
-          />
-          <div className='btn-comment'>
-            <AddComment />
-          </div>
         </div>
       </div>
     </div>
