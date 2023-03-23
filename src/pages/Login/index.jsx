@@ -9,6 +9,7 @@ const Login = () => {
   const loginURL = 'https://api.realworld.io/api/users/login';
   const [message, setMessage] = useState('');
   const user = useSelector(state => state.user);
+  console.log('user from RTK', user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -36,8 +37,8 @@ const Login = () => {
       dispatch(getUser(res.data));
       if (res.status !== 200) return;
 
-      user && localStorage.setItem('token', user.user.token);
-      user && navigate('/');
+      localStorage.setItem('token', res.data.user.token);
+      navigate('/');
     } catch (err) {
       console.log(err);
       setMessage('Invalid Credentials. Please try again.');
