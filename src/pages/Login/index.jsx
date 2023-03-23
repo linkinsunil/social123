@@ -2,11 +2,15 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUser } from '../../features/user/userSlice';
 
 const Login = () => {
   const loginURL = 'https://api.realworld.io/api/users/login';
   const [message, setMessage] = useState('');
+  const user = useSelector(state => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [userData, setUserData] = useState({
     email: 'dasdasd@gmail.com',
@@ -29,10 +33,11 @@ const Login = () => {
         },
       });
       console.log('RES-DATA', res.data);
+      dispatch(getUser(res.data));
       if (res.status !== 200) return;
 
-      localStorage.setItem('token', res.data.user.token);
-      navigate('/');
+      user && localStorage.setItem('token', user.user.token);
+      user && navigate('/');
     } catch (err) {
       console.log(err);
       setMessage('Invalid Credentials. Please try again.');

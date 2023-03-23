@@ -1,21 +1,23 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import FeedCard from '../../components/FeedCard';
 import Loader from '../../components/Loader';
 import './Feed.css';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useSelector, useDispatch } from 'react-redux';
+import { getData, loadMoreData } from '../../features/feed/feedSlice';
 
 const Feed = () => {
-  const [feedData, setFeedData] = useState('');
-  const [pageNumber, setPageNumber] = useState(0);
+  const myFeedData = useSelector(state => state.feed.feedData);
+  const pageNumber = useSelector(state => state.feed.pageNumber);
+  const dispatch = useDispatch();
   let url = `https://api.realworld.io/api/articles?limit=10&offset=${pageNumber}`;
 
   useEffect(() => {
     try {
       const getFeedData = async () => {
         const res = await axios.get(url);
-        setFeedData(res.data.articles);
-        setPageNumber(pageNumber + 1);
+        dispatch(getData(res.data.articles));
       };
 
       getFeedData();
@@ -26,9 +28,8 @@ const Feed = () => {
 
   const fetchMoreData = async () => {
     try {
-      setPageNumber(pageNumber + 1);
       const res = await axios.get(url);
-      setFeedData(feedData.concat(res.data.articles));
+      dispatch(loadMoreData(res.data.articles));
     } catch (error) {
       console.log(error);
     }
@@ -37,14 +38,14 @@ const Feed = () => {
   return (
     <div className='feed-container'>
       <InfiniteScroll
-        dataLength={feedData.length}
+        dataLength={myFeedData.length}
         next={fetchMoreData}
-        hasMore={feedData.length !== feedData.articlesCount}
+        hasMore={myFeedData.length !== myFeedData.articlesCount}
         loader={<Loader />}
       >
         <div className='feed-container'>
-          {feedData ? (
-            feedData.map((feed, index) => (
+          {myFeedData ? (
+            myFeedData.map((feed, index) => (
               <div key={index}>
                 <FeedCard feed={feed} />
               </div>
